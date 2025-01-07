@@ -1,19 +1,20 @@
 import { Router } from "express";
 import { AuthController } from "./controller";
-import { AuthService } from "../services-stop-using/auth.service";
-import { AuthDatasourceImpl } from "../../infraestructure/datasources/auth.datasource.impl";
-import { AuthRepositoryImpl } from "../../infraestructure/repositories/auth.repository.impl";
+import { EmailSender } from "../services/email.service";
+import { envs } from "../../config/envs";
+import { AuthDatasourceImpl, AuthRepositoryImpl } from "../../infraestructure";
 
 export class AuthRoutes {
   static get routes(): Router {
     const router = Router();
 
-    //* Auth service
-    // const authService = new AuthService();
+    const emailService = new EmailSender(
+      envs.MAIL_SERVICE,
+      envs.MAIL,
+      envs.SECRET
+    );
 
-    // const controller = new AuthController(authService);
-
-    const authDatasource = new AuthDatasourceImpl();
+    const authDatasource = new AuthDatasourceImpl(emailService);
 
     const authRepository = new AuthRepositoryImpl(authDatasource);
 
