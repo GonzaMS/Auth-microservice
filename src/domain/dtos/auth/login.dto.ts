@@ -1,16 +1,13 @@
 import { regularExps } from "../../../config";
 
-export class RegisterUserDto {
+export class LoginUserDto {
   constructor(
-    public readonly name: string,
     public readonly email: string,
     public readonly password: string
   ) {}
 
-  static create(object: { [key: string]: any }): [string?, RegisterUserDto?] {
-    const { name, email, password } = object;
-
-    if (!name) return ["Missing name"];
+  static create(object: { [key: string]: any }): [string?, LoginUserDto?] {
+    const { email, password } = object;
 
     if (!email) return ["Missing email"];
     if (!regularExps.email.test(email)) return ["Invalid email"];
@@ -18,6 +15,6 @@ export class RegisterUserDto {
     if (!password) return ["Missing password"];
     if (password.length < 6) return ["Password is too short"];
 
-    return [undefined, new RegisterUserDto(name, email, password)];
+    return [undefined, new LoginUserDto(email, password)];
   }
 }

@@ -1,11 +1,23 @@
 import { Router } from "express";
 import { AuthController } from "./controller";
+import { AuthService } from "../services-stop-using/auth.service";
+import { AuthDatasourceImpl } from "../../infraestructure/datasources/auth.datasource.impl";
+import { AuthRepositoryImpl } from "../../infraestructure/repositories/auth.repository.impl";
 
 export class AuthRoutes {
   static get routes(): Router {
     const router = Router();
 
-    const controller = new AuthController();
+    //* Auth service
+    // const authService = new AuthService();
+
+    // const controller = new AuthController(authService);
+
+    const authDatasource = new AuthDatasourceImpl();
+
+    const authRepository = new AuthRepositoryImpl(authDatasource);
+
+    const controller = new AuthController(authRepository);
 
     //* Routes
     router.post("/login", controller.login);

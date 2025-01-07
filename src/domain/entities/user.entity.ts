@@ -40,3 +40,12 @@ export class UserEntity {
     );
   }
 }
+
+// We omit the password field from the UserEntity type
+export type UserResponse = Omit<UserEntity, "password">;
+
+// We define the AuthResponse type
+export type AuthResponse = {
+  user: UserResponse;
+  token: string;
+};
