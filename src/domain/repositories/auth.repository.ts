@@ -7,5 +7,5 @@ export abstract class AuthRepository {
 
   abstract login(loginUserDto: LoginUserDto): Promise<AuthResponse>;
 
-  //   abstract validateEmail()
+  abstract validateEmail(token: string): Promise<boolean>;
 }

@@ -6,14 +6,14 @@ export class UserEntity {
     public readonly id: number,
     public readonly name: string,
     public readonly email: string,
-    public readonly emialValidated: boolean,
+    public readonly emailValidated: boolean,
     public readonly password: string,
     public readonly role: Role[],
     public readonly profile_picture?: string
   ) {}
 
   static mapToEntity(object: { [key: string]: any }): UserEntity {
-    const { id, name, email, emialValidated, password, role, profile_picture } =
+    const { id, name, email, emailValidated, password, role, profile_picture } =
       object;
 
     if (!id) throw CustomError.badRequest("Missing id");
@@ -22,7 +22,7 @@ export class UserEntity {
 
     if (!email) throw CustomError.badRequest("Missing emial");
 
-    if (emialValidated === undefined)
+    if (emailValidated === undefined)
       throw CustomError.badRequest("Missing email validated");
 
     if (!password) throw CustomError.badRequest("Missing password");
@@ -33,7 +33,7 @@ export class UserEntity {
       id,
       name,
       email,
-      emialValidated,
+      emailValidated,
       password,
       role,
       profile_picture

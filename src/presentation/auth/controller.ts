@@ -1,12 +1,17 @@
 import { Request, Response } from "express";
-import { CustomError, LoginUserDto, RegisterUserDto } from "../../domain";
-import { AuthRepository } from "../../domain/repositories/auth.repository";
-import { AuthService } from "../services-stop-using/auth.service";
+import {
+  AuthRepository,
+  CustomError,
+  LoginUser,
+  LoginUserDto,
+  RegisterUser,
+  RegisterUserDto,
+  ValidateEmail,
+} from "../../domain";
 
 export class AuthController {
   //* DI
   constructor(public readonly authRepository: AuthRepository) {}
-  // constructor(public readonly authService: AuthService) {}
 
   private handleError = (error: unknown, res: Response) => {
     if (error instanceof CustomError) {
@@ -21,8 +26,8 @@ export class AuthController {
     const [error, registerUserDto] = RegisterUserDto.create(req.body);
     if (error) return res.status(400).json({ error });
 
-    this.authRepository
-      .register(registerUserDto!)
+    new RegisterUser(this.authRepository)
+      .execute(registerUserDto!)
       .then((user) => res.json(user))
       .catch((error) => this.handleError(error, res));
   };
@@ -31,13 +36,18 @@ export class AuthController {
     const [error, loginUserDto] = LoginUserDto.create(req.body);
     if (error) return res.status(400).json({ error });
 
-    this.authRepository
-      .login(loginUserDto!)
+    new LoginUser(this.authRepository)
+      .execute(loginUserDto!)
       .then((user) => res.json(user))
       .catch((error) => this.handleError(error, res));
   };
 
   validateEmail = (req: Request, res: Response) => {
-    res.json("validate");
+    const { token } = req.params;
+
+    new ValidateEmail(this.authRepository)
+      .execute(token)
+      .then(() => res.json("Email validated"))
+      .catch((error) => this.handleError(error, res));
   };
 }
