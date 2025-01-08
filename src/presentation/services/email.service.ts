@@ -18,7 +18,8 @@ export class EmailSender {
   constructor(
     mailserService: string,
     mailerEmail: string,
-    senderEmailPassword: string
+    senderEmailPassword: string,
+    private readonly postToProvider: boolean //* Property for send email validations
   ) {
     this.transporter = nodemailer.createTransport({
       service: mailserService,
@@ -33,6 +34,8 @@ export class EmailSender {
     const { to, subject, htmlBody, attachments = [] } = options;
 
     try {
+      if (!this.postToProvider) return true; //* We dont send email verificacion
+
       this.transporter.sendMail({
         to,
         subject,

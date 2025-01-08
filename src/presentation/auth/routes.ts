@@ -11,7 +11,8 @@ export class AuthRoutes {
     const emailService = new EmailSender(
       envs.MAIL_SERVICE,
       envs.MAIL,
-      envs.SECRET
+      envs.SECRET,
+      envs.SEND_EMAIL
     );
 
     const authDatasource = new AuthDatasourceImpl(emailService);

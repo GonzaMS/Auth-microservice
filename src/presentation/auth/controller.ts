@@ -47,7 +47,7 @@ export class AuthController {
 
     new ValidateEmail(this.authRepository)
       .execute(token)
-      .then(() => res.json("Email validated"))
+      .then(() => res.json("Email was validated properly"))
       .catch((error) => this.handleError(error, res));
   };
 }
