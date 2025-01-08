@@ -4,7 +4,6 @@ import {
   AuthResponse,
   LoginUserDto,
   RegisterUserDto,
-  UserResponse,
 } from "../../domain";
 
 export class AuthRepositoryImpl implements AuthRepository {

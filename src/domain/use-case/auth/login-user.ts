@@ -1,5 +1,5 @@
 import { LoginUserDto } from "../../dtos/auth/login.dto";
-import { AuthResponse, UserEntity } from "../../entities/user.entity";
+import { AuthResponse } from "../../entities/user.entity";
 import { AuthRepository } from "../../repositories/auth.repository";
 
 export interface LoginUserUseCase {

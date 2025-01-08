@@ -1,5 +1,3 @@
-import { RegisterUserDto } from "../../dtos/auth/register.dto";
-import { AuthResponse, UserEntity } from "../../entities/user.entity";
 import { AuthRepository } from "../../repositories/auth.repository";
 
 export interface ValidateEmailUseCase {
