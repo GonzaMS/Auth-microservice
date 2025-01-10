@@ -9,8 +9,13 @@ export const jwtAdapter = {
     return token;
   },
 
-  validateToken: (token: string) => {
-    const decoded = jwt.verify(token, secretKey);
-    return decoded;
+  validateToken: async <T>(token: string): Promise<T | null> => {
+    try {
+      const decoded = jwt.verify(token, secretKey) as T;
+      return decoded;
+    } catch (error) {
+      console.error("Token validation failed:", error);
+      return null;
+    }
   },
 };
