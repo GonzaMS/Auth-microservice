@@ -105,14 +105,14 @@ export class AuthDatasourceImpl implements AuthDatasource {
     let payload;
 
     try {
-      payload = jwtAdapter.validateToken(token);
+      payload = await jwtAdapter.validateToken<{ email: string }>(token);
     } catch (error) {
       throw CustomError.unauthorize("Invalid token");
     }
 
     if (!payload) throw CustomError.unauthorize("Invalid token");
 
-    const { email } = payload as { email: string };
+    const { email } = payload;
     if (!email) throw CustomError.internalServer("Email not in token");
 
     const user = await prisma.user.findFirst({
