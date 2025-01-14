@@ -3,6 +3,8 @@ import {
   CategoryDatasource,
   CreateCategoryDto,
   CustomError,
+  PaginatedResult,
+  PaginationDto,
 } from "../../domain";
 import { CategoryEntity } from "../../domain/entities/category.entity";
 
@@ -21,11 +23,40 @@ export class CategoryDatasourceImpl implements CategoryDatasource {
     return CategoryEntity.mapToEntity(createCategory);
   }
 
-  async getAll(): Promise<CategoryEntity[]> {
-    const categoryList = await prisma.category.findMany();
+  async getAll(
+    pagination: PaginationDto
+  ): Promise<PaginatedResult<CategoryEntity>> {
+    const { page, limit } = pagination;
 
-    return categoryList.map(
-      (category): CategoryEntity => CategoryEntity.mapToEntity(category)
-    );
+    const [totalCategories, categories] = await Promise.all([
+      prisma.category.count(),
+      prisma.category.findMany({
+        skip: (page - 1) * limit,
+        take: limit,
+      }),
+    ]);
+
+    if (!totalCategories) throw CustomError.notFound("Categories not found");
+
+    if (!categories)
+      throw CustomError.internalServer("Error getting categories");
+
+    return {
+      page,
+      limit,
+      totalPages: Math.ceil(totalCategories / limit),
+      next:
+        totalCategories > page * limit
+          ? `/api/v1/category?page=${page + 1}&limit=${limit}`
+          : undefined,
+      prev:
+        page > 1
+          ? `/api/v1/category?page=${page - 1}&limit=${limit}`
+          : undefined,
+
+      categories: categories.map((category) =>
+        CategoryEntity.mapToEntity(category)
+      ),
+    };
   }
 }

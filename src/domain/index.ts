@@ -12,3 +12,5 @@ export * from "./use-case/auth/login-user";
 export * from "./use-case/auth/register-user";
 export * from "./use-case/auth/validate-mail";
 export * from "./use-case/category/get-category";
+export * from "./dtos/shared/pagination.dto";
+export * from "./dtos/shared/page.results.dto";

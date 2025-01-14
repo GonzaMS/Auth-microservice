@@ -2,16 +2,18 @@ import {
   CategoryDatasource,
   CategoryRepository,
   CreateCategoryDto,
+  PaginatedResult,
+  PaginationDto,
 } from "../../domain";
 import { CategoryEntity } from "../../domain/entities/category.entity";
 
 export class CategoryRepositoryImpl implements CategoryRepository {
   constructor(private readonly datasource: CategoryDatasource) {}
-  create(dto: CreateCategoryDto): Promise<CategoryEntity> {
-    return this.datasource.create(dto);
+  getAll(pagination: PaginationDto): Promise<PaginatedResult<CategoryEntity>> {
+    return this.datasource.getAll(pagination);
   }
 
-  getAll(): Promise<CategoryEntity[]> {
-    return this.datasource.getAll();
+  create(dto: CreateCategoryDto): Promise<CategoryEntity> {
+    return this.datasource.create(dto);
   }
 }
