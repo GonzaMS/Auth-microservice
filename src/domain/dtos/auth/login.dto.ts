@@ -1,7 +1,7 @@
 import { regularExps } from "../../../config";
 
 export class LoginUserDto {
-  constructor(
+  private constructor(
     public readonly email: string,
     public readonly password: string
   ) {}
