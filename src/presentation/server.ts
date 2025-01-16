@@ -33,14 +33,14 @@ export class Server {
     //* App Routes
     this.app.use(this.routes);
 
-    //* SPA
-    this.app.get("*", (req, res) => {
-      const indexPath = path.join(
-        __dirname + `../../${this.publicPath}/index.html`
-      );
+    // //* SPA
+    // this.app.get("*", (req, res) => {
+    //   const indexPath = path.join(
+    //     __dirname + `../../${this.publicPath}/index.html`
+    //   );
 
-      res.sendFile(indexPath);
-    });
+    //   res.sendFile(indexPath);
+    // });
 
     //* Server listener
     this.serverListener = this.app.listen(this.port, () => {
